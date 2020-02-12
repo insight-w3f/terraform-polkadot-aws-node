@@ -1,4 +1,5 @@
 SHELL := /bin/bash -euo pipefail
+.PHONY: test all help
 
 help: 								## Show help.
 	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
