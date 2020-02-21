@@ -14,14 +14,14 @@ For Terraform v0.12.0+
 
 ```
 module "this" {
-    source = "github.com/robc-io/terraform-polkadot-aws-sentry-node"
+    source = "github.com/insight-infrastructure/terraform-polkadot-aws-sentry-node"
 
 }
 ```
 
 ## Examples
 
-- [simple](https://github.com/robc-io/terraform-polkadot-aws-sentry-node/tree/master/examples/simple)
+- [simple](https://github.com/insight-infrastructure/terraform-polkadot-aws-sentry-node/tree/master/examples/simple)
 
 ## Known issues
 No issue is creating limit on this module.

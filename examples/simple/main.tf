@@ -2,7 +2,7 @@ variable "public_key_path" {}
 //variable "private_key_path" {}
 
 module "network" {
-  source = "github.com/robc-io/terraform-aws-polkadot-network"
+  source = "github.com/insight-infrastructure/terraform-aws-polkadot-network"
 }
 
 module "sentry" {

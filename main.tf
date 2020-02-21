@@ -8,7 +8,7 @@ locals {
 }
 
 module "label" {
-  source = "github.com/robc-io/terraform-null-label.git?ref=0.16.1"
+  source = "github.com/insight-infrastructure/terraform-null-label.git?ref=0.16.1"
   tags = {
     NetworkName = var.network_name
     Owner       = var.owner
@@ -22,7 +22,7 @@ module "label" {
 }
 
 module "user_data" {
-  source = "github.com/robc-io/terraform-polkadot-user-data.git?ref=master"
+  source = "github.com/insight-infrastructure/terraform-polkadot-user-data.git?ref=master"
   type   = "sentry"
 }
 
