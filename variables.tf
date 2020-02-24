@@ -1,3 +1,10 @@
+variable "create" {
+  description = "Boolean to make module or not"
+  type        = bool
+  default     = true
+}
+
+
 ########
 # Label
 ########
@@ -31,45 +38,18 @@ variable "owner" {
   default     = ""
 }
 
-######
-# Data
-######
-variable "vpc_id" {
-  //  TODO: Defaults to default vpc
-  description = "The vpc id of the subnet"
-  type        = string
-  default     = ""
-}
-
+#########
+# Network
+#########
 variable "subnet_id" {
-  //  TODO: Default vpc
   description = "The id of the subnet."
   type        = string
   default     = ""
 }
 
-variable "vpc_filter_map" {
-  description = "A map of of tags to query for a vpc - ie {Name = \"main\"}"
-  type        = map(string)
-  default     = null
-}
-
 variable "security_group_id" {
   description = "The id of the security group to run in"
   type        = string
-  default     = ""
-}
-
-variable "security_group_filter_map" {
-  description = "A map of of tags to query for a security group - ie {Name = \"main\"}"
-  type        = map(string)
-  default     = null
-}
-
-variable "security_group_name" {
-  description = "The name of the security group to query on"
-  type        = string
-  default     = ""
 }
 
 #####
@@ -93,11 +73,11 @@ variable "create_eip" {
   default     = false
 }
 
-variable "ebs_volume_size" {
-  description = "EBS volume size"
-  type        = string
-  default     = 0
-}
+//variable "ebs_volume_size" {
+//  description = "EBS volume size"
+//  type        = string
+//  default     = 0
+//}
 
 variable "root_volume_size" {
   description = "Root volume size"
@@ -111,11 +91,11 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
-variable "volume_path" {
-  description = "Volume path"
-  type        = string
-  default     = "/dev/xvdf"
-}
+//variable "volume_path" {
+//  description = "Volume path"
+//  type        = string
+//  default     = "/dev/xvdf"
+//}
 
 variable "public_key_path" {
   description = "The path to the public ssh key"
@@ -123,26 +103,8 @@ variable "public_key_path" {
   default     = ""
 }
 
-#########
-# Ansible
-#########
-//variable "private_key_path" {
-//  description = "Path to the private ssh key"
-//  type        = string
-//  default     = ""
-//}
-//
-//variable "playbook_file_path" {
-//  description = "The path to the playbook"
-//  type        = string
-//  default     = ""
-//}
-//
-//variable "user" {
-//  description = "The user for configuring node with ansible"
-//  type        = string
-//  default     = "ubuntu"
-//}
-
-
-
+variable "key_name" {
+  description = "The name of the preexisting key to be used instead of the local public_key_path"
+  type        = string
+  default     = ""
+}

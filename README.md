@@ -38,10 +38,11 @@ No issue is creating limit on this module.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:-----:|
+| create | Boolean to make module or not | `bool` | `true` | no |
 | create\_eip | Boolean to create elastic IP | `bool` | `false` | no |
-| ebs\_volume\_size | EBS volume size | `string` | `0` | no |
 | environment | The environment | `string` | `""` | no |
 | instance\_type | Instance type | `string` | `"t2.micro"` | no |
+| key\_name | The name of the preexisting key to be used instead of the local public\_key\_path | `string` | `""` | no |
 | monitoring | Boolean for cloudwatch | `bool` | `false` | no |
 | namespace | The namespace to deploy into | `string` | `""` | no |
 | network\_name | The network name, ie kusama / mainnet | `string` | `""` | no |
@@ -49,18 +50,20 @@ No issue is creating limit on this module.
 | owner | Owner of the infrastructure | `string` | `""` | no |
 | public\_key\_path | The path to the public ssh key | `string` | `""` | no |
 | root\_volume\_size | Root volume size | `string` | `0` | no |
-| security\_group\_filter\_map | A map of of tags to query for a security group - ie {Name = "main"} | `map(string)` | n/a | yes |
-| security\_group\_id | The id of the security group to run in | `string` | `""` | no |
-| security\_group\_name | The name of the security group to query on | `string` | `""` | no |
+| security\_group\_id | The id of the security group to run in | `string` | n/a | yes |
 | stage | The stage of the deployment | `string` | `""` | no |
 | subnet\_id | The id of the subnet. | `string` | `""` | no |
-| volume\_path | Volume path | `string` | `"/dev/xvdf"` | no |
-| vpc\_filter\_map | A map of of tags to query for a vpc - ie {Name = "main"} | `map(string)` | n/a | yes |
-| vpc\_id | The vpc id of the subnet | `string` | `""` | no |
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| instance\_id | n/a |
+| private\_ip | n/a |
+| public\_ip | n/a |
+| security\_group\_id | n/a |
+| subnet\_id | n/a |
+| user\_data | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

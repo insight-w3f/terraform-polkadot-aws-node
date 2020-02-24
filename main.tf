@@ -1,12 +1,5 @@
 resource "random_pet" "this" {}
 
-locals {
-  subnet_id           = concat([var.subnet_id], data.aws_subnet.public_tag_filter.*.id, [""])[0]
-  vpc_id              = concat([var.vpc_id], data.aws_subnet.public_tag_filter.*.vpc_id, [""])[0]
-  security_group_name = concat([var.security_group_name], ["sentry-sg"])[0]
-  security_group_id   = concat([var.security_group_id], data.aws_security_group.map_filter.*.id, data.aws_security_group.name_filter.*.id, [""])[0]
-}
-
 module "label" {
   source = "github.com/robc-io/terraform-null-label.git?ref=0.16.1"
   tags = {
@@ -26,33 +19,52 @@ module "user_data" {
   type   = "sentry"
 }
 
-module "ec2" {
-  source = "github.com/insight-infrastructure/terraform-aws-ec2-basic.git?ref=master"
+resource "aws_key_pair" "this" {
+  count      = var.key_name == "" && var.create ? 1 : 0
+  public_key = file(var.public_key_path)
+}
 
-  name = var.node_name
+resource "aws_eip" "this" {
+  count = var.create_eip && var.create ? 1 : 0
 
-  monitoring = var.monitoring
-  create_eip = var.create_eip
+  vpc = true
 
-  ebs_volume_size  = var.ebs_volume_size
-  root_volume_size = var.root_volume_size
-
-  instance_type = var.instance_type
-  volume_path   = var.volume_path
-
-  subnet_id              = local.subnet_id
-  vpc_security_group_ids = [local.security_group_id]
-
-  user_data        = module.user_data.user_data
-  local_public_key = var.public_key_path
+  lifecycle {
+    prevent_destroy = false
+  }
 
   tags = module.label.tags
 }
 
-//module "ansible" {
-//  source = "github.com/insight-infrastructure/terraform-aws-ansible-playbook.git?ref=v0.6.0"
-//
-//  playbook_file_path = var.playbook_file_path
-//  private_key_path   = var.private_key_path
-//  user               = var.user
-//}
+resource "aws_eip_association" "this" {
+  count = var.create_eip && var.create ? 1 : 0
+
+  allocation_id = aws_eip.this.*.id[count.index]
+  instance_id   = aws_instance.this.*.id[0]
+}
+
+
+resource "aws_instance" "this" {
+  count = var.create ? 1 : 0
+
+  instance_type = var.instance_type
+  ami           = data.aws_ami.ubuntu.id
+
+  user_data = module.user_data.user_data
+
+  subnet_id = var.subnet_id
+
+  vpc_security_group_ids = [var.security_group_id]
+
+  monitoring = var.monitoring
+
+  key_name = concat(aws_key_pair.this.*.key_name, [var.key_name])[0]
+
+  root_block_device {
+    volume_type           = "gp2"
+    volume_size           = var.root_volume_size
+    delete_on_termination = true
+  }
+
+  tags = merge({ Name : var.node_name }, module.label.tags)
+}

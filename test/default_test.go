@@ -10,7 +10,7 @@ import (
 	"testing"
 )
 
-func TestTerraformPlaybookPublic(t *testing.T) {
+func TestDefault(t *testing.T) {
 	t.Parallel()
 
 	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/simple")
