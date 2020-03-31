@@ -4,6 +4,11 @@ variable "create" {
   default     = true
 }
 
+variable "create_ansible" {
+  description = "Boolean to make module or not"
+  type        = bool
+  default     = true
+}
 
 ########
 # Label
@@ -67,12 +72,6 @@ variable "monitoring" {
   default     = false
 }
 
-variable "create_eip" {
-  description = "Boolean to create elastic IP"
-  type        = bool
-  default     = false
-}
-
 //variable "ebs_volume_size" {
 //  description = "EBS volume size"
 //  type        = string
@@ -103,8 +102,71 @@ variable "public_key" {
   default     = ""
 }
 
+variable "private_key_path" {
+  description = "Path to private key"
+  type        = string
+  default     = ""
+}
+
 variable "key_name" {
   description = "The name of the preexisting key to be used instead of the local public_key_path"
+  type        = string
+  default     = ""
+}
+
+#########
+# Ansible
+#########
+variable "node_exporter_user" {
+  description = "User for node exporter"
+  type        = string
+  default     = "node_exporter_user"
+}
+
+variable "node_exporter_password" {
+  description = "Password for node exporter"
+  type        = string
+  default     = "node_exporter_password"
+}
+
+variable "chain" {
+  description = "Which Polkadot chain to join"
+  type        = string
+  default     = "kusama"
+}
+
+variable "project" {
+  description = "Name of the project for node name"
+  type        = string
+  default     = "project"
+}
+
+variable "ssh_user" {
+  description = "Username for SSH"
+  type        = string
+  default     = "ubuntu"
+}
+
+variable "telemetry_url" {
+  description = "WSS URL for telemetry"
+  type        = string
+  default     = "wss://mi.private.telemetry.backend/"
+}
+
+variable "logging_filter" {
+  description = "String for polkadot logging filter"
+  type        = string
+  default     = "sync=trace,afg=trace,babe=debug"
+}
+
+variable "relay_node_ip" {
+  description = "Internal IP of Polkadot relay node"
+  type        = string
+  default     = ""
+}
+
+variable "relay_node_p2p_address" {
+  description = "P2P address of Polkadot relay node"
   type        = string
   default     = ""
 }
