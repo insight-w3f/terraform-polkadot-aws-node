@@ -97,8 +97,8 @@ variable "instance_type" {
 //  default     = "/dev/xvdf"
 //}
 
-variable "public_key_path" {
-  description = "The path to the public ssh key"
+variable "public_key" {
+  description = "The public ssh key. key_name takes precidence"
   type        = string
   default     = ""
 }

@@ -48,7 +48,7 @@ No issue is creating limit on this module.
 | network\_name | The network name, ie kusama / mainnet | `string` | `""` | no |
 | node\_name | Name of the node | `string` | `""` | no |
 | owner | Owner of the infrastructure | `string` | `""` | no |
-| public\_key\_path | The path to the public ssh key | `string` | `""` | no |
+| public\_key | The public ssh key. key\_name takes precidence | `string` | `""` | no |
 | root\_volume\_size | Root volume size | `string` | `0` | no |
 | security\_group\_id | The id of the security group to run in | `string` | n/a | yes |
 | stage | The stage of the deployment | `string` | `""` | no |

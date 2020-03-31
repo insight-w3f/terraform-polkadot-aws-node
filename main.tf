@@ -21,7 +21,7 @@ module "user_data" {
 
 resource "aws_key_pair" "this" {
   count      = var.key_name == "" && var.create ? 1 : 0
-  public_key = file(var.public_key_path)
+  public_key = var.public_key
 }
 
 resource "aws_eip" "this" {
