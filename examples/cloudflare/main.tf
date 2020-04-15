@@ -12,10 +12,12 @@ provider "cloudflare" {
 
 variable "public_key" {}
 variable "private_key_path" {}
+variable "root_domain_name" {}
 
 module "network" {
-  source         = "github.com/insight-w3f/terraform-polkadot-aws-network.git?ref=master"
-  sentry_enabled = true
+  source           = "github.com/insight-w3f/terraform-polkadot-aws-network.git?ref=master"
+  sentry_enabled   = true
+  root_domain_name = var.root_domain_name
 }
 
 module "default" {
@@ -25,4 +27,5 @@ module "default" {
   security_group_id = module.network.sentry_security_group_id
   private_key_path  = var.private_key_path
   root_volume_size  = "30"
+  domain_name       = module.network.public_regional_domain
 }

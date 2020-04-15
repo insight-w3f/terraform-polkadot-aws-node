@@ -17,10 +17,10 @@ import (
 	"time"
 )
 
-func TestDefault(t *testing.T) {
+func TestCloudflare(t *testing.T) {
 	t.Parallel()
 
-	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/defaults")
+	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/cloudflare")
 
 	defer test_structure.RunTestStage(t, "teardown", func() {
 		terraformOptions := test_structure.LoadTerraformOptions(t, exampleFolder)
@@ -31,7 +31,7 @@ func TestDefault(t *testing.T) {
 	})
 
 	test_structure.RunTestStage(t, "setup", func() {
-		terraformOptions, keyPair := configureTerraformOptions(t, exampleFolder)
+		terraformOptions, keyPair := configureCloudflareOptions(t, exampleFolder)
 		test_structure.SaveTerraformOptions(t, exampleFolder, terraformOptions)
 		test_structure.SaveEc2KeyPair(t, exampleFolder, keyPair)
 
@@ -41,12 +41,12 @@ func TestDefault(t *testing.T) {
 	test_structure.RunTestStage(t, "validate", func() {
 		terraformOptions := test_structure.LoadTerraformOptions(t, exampleFolder)
 
-		testLbEndpoints(t, terraformOptions)
+		testCloudflareEndpoints(t, terraformOptions)
 	})
 }
 
 
-func configureTerraformOptions(t *testing.T, exampleFolder string) (*terraform.Options, *aws.Ec2Keypair) {
+func configureCloudflareOptions(t *testing.T, exampleFolder string) (*terraform.Options, *aws.Ec2Keypair) {
 
 	uniqueID := random.UniqueId()
 	awsRegion := aws.GetRandomStableRegion(t, nil, nil)
@@ -70,23 +70,24 @@ func configureTerraformOptions(t *testing.T, exampleFolder string) (*terraform.O
 			"public_key":    keyPair.PublicKey,
 			"private_key_path": privateKeyPath,
 			"create_ansible": true,
+			"root_domain_name": "insight-infra.net",
 		},
 	}
 
 	return terraformOptions, keyPair
 }
 
-func testLbEndpoints(t *testing.T, terraformOptions *terraform.Options) {
+func testCloudflareEndpoints(t *testing.T, terraformOptions *terraform.Options) {
 
-	loadBalancerIp := terraform.Output(t, terraformOptions, "public_ip")
+	fqdn := terraform.Output(t, terraformOptions, "fqdn")
 
 	expectedStatus := "200"
 	body := strings.NewReader(`{"id":1, "jsonrpc":"2.0", "method":"system_health", "params":[]}`)
-	url := fmt.Sprintf("http://%s:9933", loadBalancerIp)
+	url := fmt.Sprintf("http://%s:9933", fqdn)
 	headers := make(map[string]string)
 	headers["Content-Type"] = "application/json"
 
-	description := fmt.Sprintf("curl to LB %s with error command", loadBalancerIp)
+	description := fmt.Sprintf("curl to LB %s with error command", fqdn)
 	maxRetries := 60
 	timeBetweenRetries := 2 * time.Second
 

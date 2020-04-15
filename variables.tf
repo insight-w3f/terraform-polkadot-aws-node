@@ -81,13 +81,13 @@ variable "monitoring" {
 variable "root_volume_size" {
   description = "Root volume size"
   type        = string
-  default     = 0
+  default     = "90"
 }
 
 variable "instance_type" {
   description = "Instance type"
   type        = string
-  default     = "t2.micro"
+  default     = "t2.small"
 }
 
 //variable "volume_path" {

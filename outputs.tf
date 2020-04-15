@@ -7,17 +7,21 @@ output "security_group_id" {
 }
 
 output "instance_id" {
-  value = aws_instance.this.*.id[0]
+  value = join("", aws_instance.this.*.id)
 }
 
 output "public_ip" {
-  value = aws_instance.this.*.public_ip[0]
+  value = join("", aws_eip.this.*.public_ip)
 }
 
 output "private_ip" {
-  value = aws_instance.this.*.private_ip[0]
+  value = join("", aws_instance.this.*.private_ip)
 }
 
 output "user_data" {
-  value = aws_instance.this.*.user_data[0]
+  value = join("", aws_instance.this.*.user_data)
+}
+
+output "fqdn" {
+  value = join("", aws_route53_record.this.*.fqdn)
 }

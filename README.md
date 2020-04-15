@@ -41,8 +41,10 @@ No issue is creating limit on this module.
 | chain | Which Polkadot chain to join | `string` | `"kusama"` | no |
 | create | Boolean to make module or not | `bool` | `true` | no |
 | create\_ansible | Boolean to make module or not | `bool` | `true` | no |
+| domain\_name | The domain to attach records in | `string` | `""` | no |
 | environment | The environment | `string` | `""` | no |
-| instance\_type | Instance type | `string` | `"t2.micro"` | no |
+| hostname | The hostname - hostname.example.com | `string` | `""` | no |
+| instance\_type | Instance type | `string` | `"t2.small"` | no |
 | key\_name | The name of the preexisting key to be used instead of the local public\_key\_path | `string` | `""` | no |
 | logging\_filter | String for polkadot logging filter | `string` | `"sync=trace,afg=trace,babe=debug"` | no |
 | monitoring | Boolean for cloudwatch | `bool` | `false` | no |
@@ -57,7 +59,7 @@ No issue is creating limit on this module.
 | public\_key | The public ssh key. key\_name takes precidence | `string` | `""` | no |
 | relay\_node\_ip | Internal IP of Polkadot relay node | `string` | `""` | no |
 | relay\_node\_p2p\_address | P2P address of Polkadot relay node | `string` | `""` | no |
-| root\_volume\_size | Root volume size | `string` | `0` | no |
+| root\_volume\_size | Root volume size | `string` | `"90"` | no |
 | security\_group\_id | The id of the security group to run in | `string` | n/a | yes |
 | ssh\_user | Username for SSH | `string` | `"ubuntu"` | no |
 | stage | The stage of the deployment | `string` | `""` | no |
@@ -68,6 +70,7 @@ No issue is creating limit on this module.
 
 | Name | Description |
 |------|-------------|
+| fqdn | n/a |
 | instance\_id | n/a |
 | private\_ip | n/a |
 | public\_ip | n/a |

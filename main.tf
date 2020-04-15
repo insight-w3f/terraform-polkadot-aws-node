@@ -15,8 +15,9 @@ module "label" {
 }
 
 module "user_data" {
-  source = "github.com/insight-infrastructure/terraform-polkadot-user-data.git?ref=master"
-  type   = "sentry"
+  source         = "github.com/insight-infrastructure/terraform-polkadot-user-data.git?ref=master"
+  type           = "sentry"
+  cloud_provider = "aws"
 }
 
 resource "aws_key_pair" "this" {
@@ -79,7 +80,8 @@ module "ansible" {
 
   private_key_path = var.private_key_path
 
-  playbook_file_path = "${path.module}/ansible/main.yml"
+  playbook_file_path     = "${path.module}/ansible/main.yml"
+  requirements_file_path = "${path.module}/ansible/requirements.yml"
 
   playbook_vars = {
     id = module.label.id
@@ -106,5 +108,5 @@ module "ansible" {
     relay_p2p_address : var.relay_node_p2p_address,
   }
 
-  requirements_file_path = "${path.module}/ansible/requirements.yml"
 }
+
