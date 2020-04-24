@@ -27,6 +27,10 @@ module "this" {
 No issue is creating limit on this module.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+No requirements.
+
 ## Providers
 
 | Name | Version |
@@ -37,7 +41,7 @@ No issue is creating limit on this module.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | chain | Which Polkadot chain to join | `string` | `"kusama"` | no |
 | create | Boolean to make module or not | `bool` | `true` | no |
 | create\_ansible | Boolean to make module or not | `bool` | `true` | no |

@@ -4,6 +4,8 @@ variable "create_ansible" {}
 
 module "network" {
   source = "github.com/insight-infrastructure/terraform-aws-polkadot-network.git?ref=master"
+  sentry_enabled = true
+  num_azs = 1
 }
 
 module "default" {

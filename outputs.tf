@@ -11,7 +11,7 @@ output "instance_id" {
 }
 
 output "public_ip" {
-  value = aws_instance.this.*.public_ip[0]
+  value = aws_eip.this[0].public_ip
 }
 
 output "private_ip" {
