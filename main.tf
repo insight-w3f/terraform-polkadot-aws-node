@@ -15,8 +15,12 @@ module "label" {
 }
 
 module "user_data" {
-  source = "github.com/insight-infrastructure/terraform-polkadot-user-data.git?ref=master"
-  type   = "sentry"
+  source         = "github.com/insight-infrastructure/terraform-polkadot-user-data.git?ref=master"
+  type           = "library"
+  cloud_provider = "aws"
+  driver_type    = "nitro"
+  mount_volumes  = true
+
 }
 
 resource "aws_key_pair" "this" {
@@ -73,13 +77,12 @@ module "ansible" {
   source = "github.com/insight-infrastructure/terraform-aws-ansible-playbook.git?ref=v0.12.0"
   create = var.create_ansible && var.create
 
-  ip = join("", aws_eip_association.this.*.public_ip)
-
-  user = "ubuntu"
-
-  private_key_path = var.private_key_path
-
-  playbook_file_path = "${path.module}/ansible/main.yml"
+  ip                     = join("", aws_eip_association.this.*.public_ip)
+  user                   = "ubuntu"
+  private_key_path       = var.private_key_path
+  playbook_file_path     = "${path.module}/ansible/main.yml"
+  requirements_file_path = "${path.module}/ansible/requirements.yml"
+  forks                  = 1
 
   playbook_vars = {
     id = module.label.id
@@ -106,5 +109,5 @@ module "ansible" {
     relay_p2p_address : var.relay_node_p2p_address,
   }
 
-  requirements_file_path = "${path.module}/ansible/requirements.yml"
+  module_depends_on = aws_instance.this
 }

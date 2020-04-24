@@ -78,7 +78,7 @@ func configureTerraformOptions(t *testing.T, exampleFolder string) (*terraform.O
 
 func testLbEndpoints(t *testing.T, terraformOptions *terraform.Options) {
 
-	loadBalancerIp := terraform.Output(t, terraformOptions, "dns_name")
+	loadBalancerIp := terraform.Output(t, terraformOptions, "public_ip")
 
 	expectedStatus := "200"
 	body := strings.NewReader(`{"id":1, "jsonrpc":"2.0", "method":"system_health", "params":[]}`)
