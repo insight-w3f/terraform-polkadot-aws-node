@@ -50,11 +50,13 @@ No requirements.
 | key\_name | The name of the preexisting key to be used instead of the local public\_key\_path | `string` | `""` | no |
 | logging\_filter | String for polkadot logging filter | `string` | `"sync=trace,afg=trace,babe=debug"` | no |
 | monitoring | Boolean for cloudwatch | `bool` | `false` | no |
+| mount\_volumes | Bool to enable non-root volume mounting | `bool` | `false` | no |
 | namespace | The namespace to deploy into | `string` | `""` | no |
 | network\_name | The network name, ie kusama / mainnet | `string` | `""` | no |
 | node\_exporter\_password | Password for node exporter | `string` | `"node_exporter_password"` | no |
 | node\_exporter\_user | User for node exporter | `string` | `"node_exporter_user"` | no |
 | node\_name | Name of the node | `string` | `""` | no |
+| node\_purpose | What type of node are you deploying? (sentry/library/truth) | `string` | `"library"` | no |
 | owner | Owner of the infrastructure | `string` | `""` | no |
 | private\_key\_path | Path to private key | `string` | `""` | no |
 | project | Name of the project for node name | `string` | `"project"` | no |
@@ -65,6 +67,7 @@ No requirements.
 | security\_group\_id | The id of the security group to run in | `string` | n/a | yes |
 | ssh\_user | Username for SSH | `string` | `"ubuntu"` | no |
 | stage | The stage of the deployment | `string` | `""` | no |
+| storage\_driver\_type | Type of EBS storage the instance is using (nitro/standard) | `string` | `"standard"` | no |
 | subnet\_id | The id of the subnet. | `string` | `""` | no |
 | telemetry\_url | WSS URL for telemetry | `string` | `"wss://mi.private.telemetry.backend/"` | no |
 

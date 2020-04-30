@@ -19,8 +19,7 @@ module "user_data" {
   type           = var.node_purpose
   cloud_provider = "aws"
   driver_type    = var.storage_driver_type
-  mount_volumes  = true
-
+  mount_volumes  = var.mount_volumes
 }
 
 resource "aws_key_pair" "this" {

@@ -45,8 +45,8 @@ variable "owner" {
 
 variable "node_purpose" {
   description = "What type of node are you deploying? (sentry/library/truth)"
-  type = string
-  default = "library"
+  type        = string
+  default     = "library"
 }
 
 #########
@@ -122,8 +122,14 @@ variable "key_name" {
 
 variable "storage_driver_type" {
   description = "Type of EBS storage the instance is using (nitro/standard)"
-  type = string
-  default = "standard"
+  type        = string
+  default     = "standard"
+}
+
+variable "mount_volumes" {
+  description = "Bool to enable non-root volume mounting"
+  type        = bool
+  default     = false
 }
 
 #########
