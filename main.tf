@@ -16,9 +16,9 @@ module "label" {
 
 module "user_data" {
   source         = "github.com/insight-infrastructure/terraform-polkadot-user-data.git?ref=master"
-  type           = "library"
+  type           = var.node_purpose
   cloud_provider = "aws"
-  driver_type    = "nitro"
+  driver_type    = var.storage_driver_type
   mount_volumes  = true
 
 }

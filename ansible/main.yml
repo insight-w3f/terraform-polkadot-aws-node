@@ -11,5 +11,5 @@
     - { role: "dev-sec.os-hardening", when: ansible_hardening | default(false) | bool }
     - { role: "dev-sec.ssh-hardening", when: ansible_hardening | default(false) | bool }
     - node-exporter
-    - insight_infra.polkadot_library
-    - insight_infra.polkadot_health_check
+    - insight_w3f.polkadot_library
+    - insight_w3f.polkadot_health_check

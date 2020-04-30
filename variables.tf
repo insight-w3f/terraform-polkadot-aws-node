@@ -43,6 +43,12 @@ variable "owner" {
   default     = ""
 }
 
+variable "node_purpose" {
+  description = "What type of node are you deploying? (sentry/library/truth)"
+  type = string
+  default = "library"
+}
+
 #########
 # Network
 #########
@@ -112,6 +118,12 @@ variable "key_name" {
   description = "The name of the preexisting key to be used instead of the local public_key_path"
   type        = string
   default     = ""
+}
+
+variable "storage_driver_type" {
+  description = "Type of EBS storage the instance is using (nitro/standard)"
+  type = string
+  default = "standard"
 }
 
 #########
