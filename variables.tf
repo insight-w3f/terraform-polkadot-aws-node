@@ -192,7 +192,7 @@ variable "ssh_user" {
 variable "telemetry_url" {
   description = "WSS URL for telemetry"
   type        = string
-  default     = "wss://mi.private.telemetry.backend/"
+  default     = ""
 }
 
 variable "logging_filter" {
