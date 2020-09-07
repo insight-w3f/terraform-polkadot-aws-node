@@ -79,33 +79,53 @@ module "ansible" {
   ip                     = join("", aws_eip_association.this.*.public_ip)
   user                   = "ubuntu"
   private_key_path       = var.private_key_path
-  playbook_file_path     = "${path.module}/ansible/main.yml"
+  playbook_file_path     = "${path.module}/ansible/${var.node_purpose}.yml"
   requirements_file_path = "${path.module}/ansible/requirements.yml"
   forks                  = 1
 
   playbook_vars = {
-    id = module.label.id
+    id       = module.label.id
+    ssh_user = var.ssh_user
 
-    node_exporter_user : var.node_exporter_user,
-    node_exporter_password : var.node_exporter_password,
-    chain : var.chain,
-    ssh_user : var.ssh_user,
-    project : var.project,
+    # enable flags
+    node_exporter_enabled = var.node_exporter_enabled
+    health_check_enabled  = var.health_check_enabled
+    consul_enabled        = var.consul_enabled
+    use_source_of_truth   = var.source_of_truth_enabled
 
-    polkadot_binary_url : var.polkadot_client_url,
-    polkadot_binary_checksum : "sha256:${var.polkadot_client_hash}",
-    node_exporter_binary_url : var.node_exporter_url,
-    node_exporter_binary_checksum : "sha256:${var.node_exporter_hash}",
-    polkadot_restart_enabled : true,
-    polkadot_restart_minute : "50",
-    polkadot_restart_hour : "10",
-    polkadot_restart_day : "1",
-    polkadot_restart_month : "*",
-    polkadot_restart_weekday : "*",
-    telemetry_url : var.telemetry_url,
-    logging_filter : var.logging_filter,
-    relay_ip_address : var.relay_node_ip,
-    relay_p2p_address : var.relay_node_p2p_address,
+    # node exporter
+    node_exporter_user            = var.node_exporter_user
+    node_exporter_password        = var.node_exporter_password
+    node_exporter_binary_url      = var.node_exporter_url
+    node_exporter_binary_checksum = "sha256:${var.node_exporter_hash}"
+
+    # polkadot client
+    polkadot_binary_url      = var.polkadot_client_url
+    polkadot_binary_checksum = "sha256:${var.polkadot_client_hash}"
+
+    polkadot_restart_enabled = var.polkadot_restart_enabled
+    polkadot_restart_minute  = var.polkadot_restart_minute
+    polkadot_restart_hour    = var.polkadot_restart_hour
+    polkadot_restart_day     = var.polkadot_restart_day
+    polkadot_restart_month   = var.polkadot_restart_month
+    polkadot_restart_weekday = var.polkadot_restart_weekday
+
+    chain      = var.chain
+    chain_stub = var.chain_stub
+
+    aws_access_key_id     = var.sync_aws_access_key_id
+    aws_secret_access_key = var.sync_aws_secret_access_key
+    region                = var.sync_region
+    sync_bucket_uri       = var.sync_bucket_uri
+
+    project                             = var.project
+    instance_count                      = var.instance_count
+    loggingFilter                       = var.logging_filter
+    telemetryUrl                        = var.telemetry_url
+    default_telemetry_enabled           = var.default_telemetry_enabled
+    base_path                           = var.base_path
+    polkadot_additional_common_flags    = var.polkadot_additional_common_flags
+    polkadot_additional_validator_flags = var.polkadot_additional_validator_flags
   }
 
   module_depends_on = aws_instance.this
