@@ -43,7 +43,7 @@ resource "aws_eip_association" "this" {
   count = var.create ? 1 : 0
 
   allocation_id = aws_eip.this.*.id[count.index]
-  instance_id   = aws_instance.this.*.id[0]
+  instance_id   = join("", aws_instance.this.*.id)
 }
 
 
@@ -113,10 +113,10 @@ module "ansible" {
     chain      = var.chain
     chain_stub = var.chain_stub
 
-    aws_access_key_id     = var.sync_aws_access_key_id
-    aws_secret_access_key = var.sync_aws_secret_access_key
+    aws_access_key_id     = local.create_source_of_truth ? aws_iam_access_key.sync[0].id : var.sync_aws_access_key_id
+    aws_secret_access_key = local.create_source_of_truth ? aws_iam_access_key.sync[0].secret : var.sync_aws_secret_access_key
     region                = var.sync_region
-    sync_bucket_uri       = var.sync_bucket_uri
+    sync_bucket_uri       = local.create_source_of_truth ? aws_s3_bucket.sync[0].bucket_domain_name : var.sync_bucket_uri
 
     project                             = var.project
     instance_count                      = var.instance_count

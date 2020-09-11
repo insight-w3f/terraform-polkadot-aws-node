@@ -13,6 +13,13 @@ variable "create_ansible" {
 ########
 # Label
 ########
+
+variable "name" {
+  description = "The name of the deployment"
+  type        = string
+  default     = "polkadot-api"
+}
+
 variable "environment" {
   description = "The environment"
   type        = string
@@ -169,7 +176,7 @@ variable "consul_enabled" {
 variable "source_of_truth_enabled" {
   description = "Bool to enable SoT sync (for use with library nodes)"
   type        = bool
-  default     = true
+  default     = false
 }
 
 # Node exporter
