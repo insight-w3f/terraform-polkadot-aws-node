@@ -1,4 +1,3 @@
-
 ---
 - hosts: all
   become: yes
@@ -10,6 +9,5 @@
     - { role: volumes, when: instance_store_enabled | default(false) | bool }
     - { role: "dev-sec.os-hardening", when: ansible_hardening | default(false) | bool }
     - { role: "dev-sec.ssh-hardening", when: ansible_hardening | default(false) | bool }
-    - node-exporter
-    - insight_w3f.polkadot_library
-    - insight_w3f.polkadot_health_check
+    - role: insight_w3f.polkadot_base
+    - role: insight_w3f.polkadot_validator

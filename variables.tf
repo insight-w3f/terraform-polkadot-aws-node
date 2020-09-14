@@ -13,6 +13,13 @@ variable "create_ansible" {
 ########
 # Label
 ########
+
+variable "name" {
+  description = "The name of the deployment"
+  type        = string
+  default     = "polkadot-api"
+}
+
 variable "environment" {
   description = "The environment"
   type        = string
@@ -44,9 +51,14 @@ variable "owner" {
 }
 
 variable "node_purpose" {
-  description = "What type of node are you deploying? (sentry/library/truth)"
+  description = "What type of node are you deploying? (validator/library/truth)"
   type        = string
   default     = "library"
+
+  //  validation {
+  //    condition     = var.node_purpose == "validator" || var.node_purpose == "library" || var.node_purpose == "truth"
+  //    error_message = "The node_purpose value must be one of \"validator\", \"library\", or \"truth\"."
+  //  }
 }
 
 #########
@@ -135,30 +147,39 @@ variable "mount_volumes" {
 #########
 # Ansible
 #########
-variable "polkadot_client_url" {
-  description = "URL to Polkadot client binary"
-  type = string
-  default = "https://github.com/w3f/polkadot/releases/download/v0.7.32/polkadot"
+
+variable "ssh_user" {
+  description = "Username for SSH"
+  type        = string
+  default     = "ubuntu"
 }
 
-variable "polkadot_client_hash" {
-  description = "SHA256 hash of Polkadot client binary"
-  type = string
-  default = "c34d63e5d80994b2123a3a0b7c5a81ce8dc0f257ee72064bf06654c2b93e31c9"
+## Enable flags
+variable "node_exporter_enabled" {
+  description = "Bool to enable node exporter"
+  type        = bool
+  default     = true
 }
 
-variable "node_exporter_url" {
-  description = "URL to Node Exporter binary"
-  type = string
-  default = "https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz"
+variable "health_check_enabled" {
+  description = "Bool to enable client health check agent"
+  type        = bool
+  default     = true
 }
 
-variable "node_exporter_hash" {
-  description = "SHA256 hash of Node Exporter binary"
-  type = string
-  default = "b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424"
+variable "consul_enabled" {
+  description = "Bool to enable Consul"
+  type        = bool
+  default     = true
 }
 
+variable "source_of_truth_enabled" {
+  description = "Bool to enable SoT sync (for use with library nodes)"
+  type        = bool
+  default     = false
+}
+
+# Node exporter
 variable "node_exporter_user" {
   description = "User for node exporter"
   type        = string
@@ -171,10 +192,101 @@ variable "node_exporter_password" {
   default     = "node_exporter_password"
 }
 
+variable "node_exporter_url" {
+  description = "URL to Node Exporter binary"
+  type        = string
+  default     = "https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz"
+}
+
+variable "node_exporter_hash" {
+  description = "SHA256 hash of Node Exporter binary"
+  type        = string
+  default     = "b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424"
+}
+
+# Client
+variable "polkadot_client_url" {
+  description = "URL to Polkadot client binary"
+  type        = string
+  default     = "https://github.com/w3f/polkadot/releases/download/v0.8.23/polkadot"
+}
+
+variable "polkadot_client_hash" {
+  description = "SHA256 hash of Polkadot client binary"
+  type        = string
+  default     = "cdf31d39ed54e66489d1afe74ed7549d5bcdf8ff479759e8fc476d17d069901e"
+}
+
+variable "polkadot_restart_enabled" {
+  description = "Bool to enable client restart cron job"
+  type        = bool
+  default     = false
+}
+
+variable "polkadot_restart_minute" {
+  description = "Client cron restart minute"
+  type        = string
+  default     = ""
+}
+
+variable "polkadot_restart_hour" {
+  description = "Client cron restart hour"
+  type        = string
+  default     = ""
+}
+
+variable "polkadot_restart_day" {
+  description = "Client cron restart day"
+  type        = string
+  default     = ""
+}
+
+variable "polkadot_restart_month" {
+  description = "Client cron restart month"
+  type        = string
+  default     = ""
+}
+
+variable "polkadot_restart_weekday" {
+  description = "Client cron restart weekday"
+  type        = string
+  default     = ""
+}
+
 variable "chain" {
   description = "Which Polkadot chain to join"
   type        = string
-  default     = "kusama"
+  default     = "polkadot"
+}
+
+variable "chain_stub" {
+  description = "Short-name of the Polkadot chain to join, i.e. kusama = ksmm3, polkadot = polkadot."
+  type        = string
+  default     = "polkadot"
+}
+
+variable "sync_aws_access_key_id" {
+  description = "AWS access key ID for SoT sync"
+  type        = string
+  default     = ""
+}
+
+variable "sync_aws_secret_access_key" {
+  description = "AWS access key for SoT sync"
+  type        = string
+  default     = ""
+}
+
+variable "sync_region" {
+  description = "AWS region for SoT sync"
+  type        = string
+  default     = ""
+}
+
+variable "sync_bucket_uri" {
+  description = "S3 bucket URI for SoT sync"
+  type        = string
+  default     = ""
 }
 
 variable "project" {
@@ -183,16 +295,10 @@ variable "project" {
   default     = "project"
 }
 
-variable "ssh_user" {
-  description = "Username for SSH"
+variable "instance_count" {
+  description = "Iteration number for this instance"
   type        = string
-  default     = "ubuntu"
-}
-
-variable "telemetry_url" {
-  description = "WSS URL for telemetry"
-  type        = string
-  default     = ""
+  default     = "0"
 }
 
 variable "logging_filter" {
@@ -201,14 +307,32 @@ variable "logging_filter" {
   default     = "sync=trace,afg=trace,babe=debug"
 }
 
-variable "relay_node_ip" {
-  description = "Internal IP of Polkadot relay node"
+variable "telemetry_url" {
+  description = "WSS URL for telemetry"
   type        = string
   default     = ""
 }
 
-variable "relay_node_p2p_address" {
-  description = "P2P address of Polkadot relay node"
+variable "default_telemetry_enabled" {
+  description = "Bool to enable telemetry submission to telemetry.polkadot.io"
+  type        = bool
+  default     = false
+}
+
+variable "base_path" {
+  description = "Alternate base path for Polkadot client"
+  type        = string
+  default     = ""
+}
+
+variable "polkadot_additional_common_flags" {
+  description = "Optional common flags for Polkadot client"
+  type        = string
+  default     = ""
+}
+
+variable "polkadot_additional_validator_flags" {
+  description = "Optional validator flags for Polkadot client"
   type        = string
   default     = ""
 }
