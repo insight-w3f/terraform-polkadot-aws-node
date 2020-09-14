@@ -1,14 +1,6 @@
 # terraform-polkadot-aws-sentry-node
 
-WIP - Do not use
-
-## Features
-
 This module sets up a single node deployments for polkadot. Options include a validator, sentry, and telemetry nodes. 
-
-## Terraform versions
-
-For Terraform v0.12.0+
 
 ## Usage
 
