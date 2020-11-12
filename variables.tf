@@ -336,3 +336,27 @@ variable "polkadot_additional_validator_flags" {
   type        = string
   default     = ""
 }
+
+variable "rpc_api_port" {
+  description = "Port number for the JSON RPC API"
+  type        = string
+  default     = "9933"
+}
+
+variable "wss_api_port" {
+  description = "Port number for the Websockets API"
+  type        = string
+  default     = "9944"
+}
+
+variable "health_check_port" {
+  description = "Port number for the health check"
+  type        = string
+  default     = "5500"
+}
+
+variable "polkadot_prometheus_port" {
+  description = "Port number for the Prometheus Metrics exporter built into the Polkadot client"
+  type        = string
+  default     = "9610"
+}

@@ -126,6 +126,11 @@ module "ansible" {
     base_path                           = var.base_path
     polkadot_additional_common_flags    = var.polkadot_additional_common_flags
     polkadot_additional_validator_flags = var.polkadot_additional_validator_flags
+
+    prometheus_port   = var.polkadot_prometheus_port
+    api_rpc_port      = var.rpc_api_port
+    api_wss_port      = var.wss_api_port
+    health_check_port = var.health_check_port
   }
 
   module_depends_on = aws_instance.this
