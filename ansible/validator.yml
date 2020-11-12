@@ -1,13 +1,28 @@
 ---
 - hosts: all
   become: yes
-  roles:
-    - role: insight_infra.cloud_helper
+  tasks:
+    - name: Include CloudHelper
+      include_role:
+        name: insight_infra.cloud_helper
       vars:
         enable_cloud_wait: true
         enable_jq: true
-    - { role: volumes, when: instance_store_enabled | default(false) | bool }
-    - { role: "dev-sec.os-hardening", when: ansible_hardening | default(false) | bool }
-    - { role: "dev-sec.ssh-hardening", when: ansible_hardening | default(false) | bool }
-    - role: insight_w3f.polkadot_base
-    - role: insight_w3f.polkadot_validator
+    - name: Run volumes playbook
+      include_role:
+        name: volumes
+      when: instance_store_enabled | default(false) | bool
+    - name: Run OS hardening playbook
+      include_role:
+        name: dev-sec.os-hardening
+      when: ansible_hardening | default(false) | bool
+    - name: Run SSH hardening playbook
+      include_role:
+        name: dev-sec.ssh-hardening
+      when: ansible_hardening | default(false) | bool
+    - name: Install Polkadot Base
+      include_role:
+        name: insight_w3f.polkadot_base
+    - name: Install Polkadot Validator
+      include_role:
+        name: insight_w3f.polkadot_validator

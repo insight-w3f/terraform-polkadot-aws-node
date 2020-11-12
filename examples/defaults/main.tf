@@ -3,9 +3,9 @@ variable "private_key_path" {}
 variable "create_ansible" {}
 
 module "network" {
-  source = "github.com/insight-infrastructure/terraform-aws-polkadot-network.git?ref=master"
+  source         = "github.com/insight-infrastructure/terraform-aws-polkadot-network.git?ref=master"
   sentry_enabled = true
-  num_azs = 1
+  num_azs        = 1
 }
 
 module "default" {
@@ -15,5 +15,5 @@ module "default" {
   security_group_id = module.network.sentry_security_group_id
   private_key_path  = var.private_key_path
   create_ansible    = var.create_ansible
+  node_purpose      = "library"
 }
-

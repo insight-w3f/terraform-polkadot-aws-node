@@ -23,16 +23,16 @@ output "user_data" {
 }
 
 output "reader_aws_access_key_id" {
-  value = join("", aws_iam_access_key.reader.*.id)
+  value     = join("", aws_iam_access_key.reader.*.id)
   sensitive = true
 }
 
 output "reader_aws_secret_access_key" {
-  value = join("", aws_iam_access_key.reader.*.secret)
+  value     = join("", aws_iam_access_key.reader.*.secret)
   sensitive = true
 }
 
 output "sync_bucket_uri" {
-  value = join("", aws_s3_bucket.sync.*.bucket_domain_name)
+  value     = join("", aws_s3_bucket.sync.*.bucket_domain_name)
   sensitive = true
 }
