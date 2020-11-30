@@ -205,6 +205,18 @@ variable "node_exporter_hash" {
 }
 
 # Client
+variable "network_settings" {
+  description = "Map of network settings to apply. Use either this or set individual variables."
+  type        = map(map(string))
+  default     = null
+}
+
+variable "network_stub" {
+  description = "The stub name of the Polkadot chain (polkadot = polkadot, kusama = ksmcc3)"
+  type        = string
+  default     = "ksmcc3"
+}
+
 variable "polkadot_client_url" {
   description = "URL to Polkadot client binary"
   type        = string
@@ -286,7 +298,7 @@ variable "sync_region" {
 variable "sync_bucket_uri" {
   description = "S3 bucket URI for SoT sync"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "project" {

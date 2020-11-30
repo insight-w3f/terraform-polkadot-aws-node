@@ -64,6 +64,8 @@ No requirements.
 | name | The name of the deployment | `string` | `"polkadot-api"` | no |
 | namespace | The namespace to deploy into | `string` | `""` | no |
 | network\_name | The network name, ie kusama / mainnet | `string` | `""` | no |
+| network\_settings | Map of network settings to apply. Use either this or set individual variables. | `map(map(string))` | `null` | no |
+| network\_stub | The stub name of the Polkadot chain (polkadot = polkadot, kusama = ksmcc3) | `string` | `"ksmcc3"` | no |
 | node\_exporter\_enabled | Bool to enable node exporter | `bool` | `true` | no |
 | node\_exporter\_hash | SHA256 hash of Node Exporter binary | `string` | `"b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424"` | no |
 | node\_exporter\_password | Password for node exporter | `string` | `"node_exporter_password"` | no |
@@ -96,7 +98,7 @@ No requirements.
 | subnet\_id | The id of the subnet. | `string` | `""` | no |
 | sync\_aws\_access\_key\_id | AWS access key ID for SoT sync | `string` | `""` | no |
 | sync\_aws\_secret\_access\_key | AWS access key for SoT sync | `string` | `""` | no |
-| sync\_bucket\_uri | S3 bucket URI for SoT sync | `string` | `""` | no |
+| sync\_bucket\_uri | S3 bucket URI for SoT sync | `string` | `null` | no |
 | sync\_region | AWS region for SoT sync | `string` | `""` | no |
 | telemetry\_url | WSS URL for telemetry | `string` | `""` | no |
 | wss\_api\_port | Port number for the Websockets API | `string` | `"9944"` | no |
@@ -112,6 +114,8 @@ No requirements.
 | reader\_aws\_secret\_access\_key | n/a |
 | security\_group\_id | n/a |
 | subnet\_id | n/a |
+| sync\_aws\_access\_key\_id | n/a |
+| sync\_aws\_secret\_access\_key | n/a |
 | sync\_bucket\_uri | n/a |
 | user\_data | n/a |
 

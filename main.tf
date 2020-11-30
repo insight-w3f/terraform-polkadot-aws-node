@@ -110,8 +110,7 @@ module "ansible" {
     polkadot_restart_month   = var.polkadot_restart_month
     polkadot_restart_weekday = var.polkadot_restart_weekday
 
-    chain      = var.chain
-    chain_stub = var.chain_stub
+    network_settings = jsonencode(local.network_settings)
 
     aws_access_key_id     = local.create_source_of_truth ? aws_iam_access_key.sync[0].id : var.sync_aws_access_key_id
     aws_secret_access_key = local.create_source_of_truth ? aws_iam_access_key.sync[0].secret : var.sync_aws_secret_access_key
@@ -126,11 +125,6 @@ module "ansible" {
     base_path                           = var.base_path
     polkadot_additional_common_flags    = var.polkadot_additional_common_flags
     polkadot_additional_validator_flags = var.polkadot_additional_validator_flags
-
-    prometheus_port   = var.polkadot_prometheus_port
-    api_rpc_port      = var.rpc_api_port
-    api_wss_port      = var.wss_api_port
-    health_check_port = var.health_check_port
   }
 
   module_depends_on = aws_instance.this

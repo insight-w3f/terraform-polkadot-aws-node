@@ -32,6 +32,16 @@ output "reader_aws_secret_access_key" {
   sensitive = true
 }
 
+output "sync_aws_access_key_id" {
+  value     = join("", aws_iam_access_key.sync.*.id)
+  sensitive = true
+}
+
+output "sync_aws_secret_access_key" {
+  value     = join("", aws_iam_access_key.sync.*.secret)
+  sensitive = true
+}
+
 output "sync_bucket_uri" {
   value     = join("", aws_s3_bucket.sync.*.bucket_domain_name)
   sensitive = true
